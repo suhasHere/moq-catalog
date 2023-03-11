@@ -41,7 +41,7 @@ This document defines core requirements for a Catalog specification such that it
 
 # Introduction
 
-The MoQ Base Protocol [RFCXXX] defines a media transport protocol that utilizes the QUIC network protocol [QUIC] and WebTransport[WebTrans] to move objects between publishers, subscribers and intermediaries. Subscription IDs are used to identify available tracks.  The mapping of media characteristics to objects, as well as relative prioritization of those objects, is defined by a separate streaming format specification. Multiple streaming formats can operate concurrently over MoQ base protocol. Each streaming format defines its own catalog definition. This document provides normative requirements for these catalog definitions to ensure their compatibility across networks implementing the MoQ Base Protocol.
+The MoQ Base Protocol [RFCXXX] defines a media transport protocol that utilizes the QUIC network protocol [QUIC] and WebTransport[WebTrans] to move objects between publishers, subscribers and intermediaries. Subscription IDs are used to identify available tracks.  The mapping of media characteristics to objects, as well as relative prioritization of those objects, is defined by a separate MoQ Streaming Format specification. Multiple streaming formats can operate concurrently over MoQ base protocol. Each streaming format defines its own catalog definition. This document provides normative requirements for these catalog definitions to ensure their compatibility across networks implementing the MoQ Base Protocol.
 
 # Conventions and Definitions
 
@@ -49,32 +49,37 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ## Terminology
 
-Catalog - a
-MBP - MoQ Base Protocol
-Subscription ID -
+ - Catalog - a Track with a reserved Track ID within an emission that defines the availability of other Tracks. 
+ - Emission - a collection of Tracks under a common prioritization and orchestration domain. 
+ - MoQ Base Protocol (MBP) - a media transport protocol that utilizes the QUIC network protocol [QUIC] and WebTransport[WebTrans] to move objects between publishers, subscribers and intermediaries
+ - MoQ Streaming Format - a specification which defines how to stream media over the MoQ Base Protocol. It includes a catalog definition, a mapping of media to MBP objects, prioritization rules and additional business logic. 
+ - Track - a sequence of Objects within MBP
+ - Track ID - a string used to identify a Track
 
 # Catalog
 
-A Catalog is a special case of a MoQ Base Protocol track. A track is composed of a succession of Objects, each assigned to a Group.
+A Catalog is a special case of a Track. A Track is composed of a succession of Objects, each assigned to a Group.
 
-## Catalog track ID
+## Catalog Track ID
 
-A Catalog MUST have a track ID of "catalog". This ID is a lowercase string. Each Emission must have at most one trackID of "catalog", which defines all other tracks within that emission.  If a streaming format requires a series of mutiple catalogs, then it MUST maintain a singleton parent "catalog" which is the entry point and definition of all other child catalogs within that emission.
+A Catalog MUST have a Track ID of "catalog". This ID is a lowercase string. Each Emission must have at most one Track ID of "catalog", which defines all other tracks within that emission.  If a streaming format requires a series of multiple catalogs, then it MUST maintain a singleton parent "catalog" which is the entry point and definition of all other child catalogs within that emission.
 
-## Catalog Payload Structure
+## Catalog payload structure
 
-The payload of a Catalog Object consists of two components - a two octect header defining the type, followed by the variable length body.
+The payload of a Catalog Object consists of two components - a two octet header defining the type, followed by the variable length body.
 
-+-------------+--------------------+
-|  0x01-0x02  |  Type designator   |
-|  0x03 -     |       Body         |
-+-------------+--------------------+
+        +---------------+--------------------+
+        |  0x01 - 0x02  |  Type designator   |
+        |  0x03 -       |       Body         |
+        +---------------+--------------------+
 
-To understand the type of catalog object, a receiver would read the first two octects of the object payload and interpret them as an integer in the range  0x0000 - 0xFFFF.
+To understand the type of catalog object, a receiver would read the first two octets of the object payload and interpret them as an integer in the range  0x0000 - 0xFFFF. This would define the Streaming Format of the catalog object, which in turn would define the serialization of the body, allowing the receiver to parse the body and extract the internal information. 
 
-A Catalog specification MUST define the binary serialization of the body. This serialization may vary between streaming formats and there is no requirement to standarize how the
+A Catalog specification MUST define the binary serialization of the body. This serialization may vary between streaming formats and there is no requirement to standardize how the data within the body is represented. 
 
-A Catalog MUST describe the Subscribe IDs available within an emission. It AMY provide initilaization data as well as selection criteria to assist a client in selecting content for subscription as well as Initialization
+## Catalog contents
+
+A Catalog MUST describe the Track IDs available within an emission. It MAY provide initialization data as well as selection criteria to assist a client in selecting content for subscription.
 
 ## Catalog dependency
 
@@ -83,15 +88,11 @@ The first Catalog object in any group sequence MUST be independent of any other 
 
 # Security Considerations
 
-Catalog payload body MAY be encryupted. The catalog payload type header MUST NOT be encrypted.
-
-# Privacy Considerations
-
-Catalog payload MAY be encryupted. The catalog type header MUST NOT be encrypted.
+The catalog payload type header MUST NOT be encrypted. The catalog payload body MAY be encrypted. 
 
 # IANA Considerations {#iana}
 
-This section details the type of Catalog format that can be registered.  The type registry can be updated by incrementally expanding the type space, i.e., by allocating and reserving new type identifiers.  As per [RFC8126], this section details the creation of the "MoQ Base Protocol Catalog Type" registry.
+This section details how the Type of the Catalog format that can be registered.  The type registry can be updated by incrementally expanding the type space, i.e., by allocating and reserving new type identifiers.  As per [RFC8126], this section details the creation of the "MoQ Base Protocol Catalog Type" registry.
 
 ## Catalog Type Registry
 
@@ -133,4 +134,4 @@ This document creates a new registry, "MoQ Base Protocol Catalog Type".  The reg
 # Acknowledgments
 {:numbered="false"}
 
-The
+The IETF MoQ mailing lists and discussion groups. 
