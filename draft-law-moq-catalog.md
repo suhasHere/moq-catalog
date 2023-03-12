@@ -49,10 +49,10 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ## Terminology
 
- - Catalog - a Track with a reserved Track ID within an emission that defines the availability of other Tracks. 
- - Emission - a collection of Tracks under a common prioritization and orchestration domain. 
+ - Catalog - a Track with a reserved Track ID within an emission that defines the availability of other Tracks.
+ - Emission - a collection of Tracks under a common prioritization and orchestration domain.
  - MoQ Base Protocol (MBP) - a media transport protocol that utilizes the QUIC network protocol [QUIC] and WebTransport[WebTrans] to move objects between publishers, subscribers and intermediaries
- - MoQ Streaming Format - a specification which defines how to stream media over the MoQ Base Protocol. It includes a catalog definition, a mapping of media to MBP objects, prioritization rules and additional business logic. 
+ - MoQ Streaming Format - a specification which defines how to stream media over the MoQ Base Protocol. It includes a catalog definition, a mapping of media to MBP objects, prioritization rules and additional business logic.
  - Track - a sequence of Objects within MBP
  - Track ID - a string used to identify a Track
 
@@ -73,9 +73,9 @@ The payload of a Catalog Object consists of two components - a two octet header 
         |  0x03 -       |       Body         |
         +---------------+--------------------+
 
-To understand the type of catalog object, a receiver would read the first two octets of the object payload and interpret them as an integer in the range  0x0000 - 0xFFFF. This would define the Streaming Format of the catalog object, which in turn would define the serialization of the body, allowing the receiver to parse the body and extract the internal information. 
+To understand the type of catalog object, a receiver would read the first two octets of the object payload and interpret them as an integer in the range  0x0000 - 0xFFFF. This would define the Streaming Format of the catalog object, which in turn would define the serialization of the body, allowing the receiver to parse the body and extract the internal information.
 
-A Catalog specification MUST define the binary serialization of the body. This serialization may vary between streaming formats and there is no requirement to standardize how the data within the body is represented. 
+A Catalog specification MUST define the binary serialization of the body. This serialization may vary between streaming formats and there is no requirement to standardize how the data within the body is represented.
 
 ## Catalog contents
 
@@ -88,7 +88,7 @@ The first Catalog object in any group sequence MUST be independent of any other 
 
 # Security Considerations
 
-The catalog payload type header MUST NOT be encrypted. The catalog payload body MAY be encrypted. 
+The catalog payload type header MUST NOT be encrypted. The catalog payload body MAY be encrypted.
 
 # IANA Considerations {#iana}
 
@@ -134,4 +134,4 @@ This document creates a new registry, "MoQ Base Protocol Catalog Type".  The reg
 # Acknowledgments
 {:numbered="false"}
 
-The IETF MoQ mailing lists and discussion groups. 
+The IETF MoQ mailing lists and discussion groups.
