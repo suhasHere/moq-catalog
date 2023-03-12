@@ -1,11 +1,6 @@
-# UserInfo Verifiable Credentials as MLS Credentials
+# Catalog Specification for MoQ Base Protocol compliant streaming formats
 
-This is the working area for the individual Internet-Draft, "UserInfo Verifiable Credentials as MLS Credentials".
-
-* [Editor's Copy](https://bifurcation.github.io/mls-userinfo-vc/#go.draft-barnes-mls-userinfo-vc.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-barnes-mls-userinfo-vc)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-barnes-mls-userinfo-vc)
-* [Compare Editor's Copy to Individual Draft](https://bifurcation.github.io/mls-userinfo-vc/#go.draft-barnes-mls-userinfo-vc.diff)
+This is the working area for the individual Internet-Draft, "Catalog Specification for MoQ Base Protocol compliant streaming formats".
 
 
 ## Contributing
