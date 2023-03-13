@@ -15,7 +15,7 @@ Expires: 13 September 2023                                         Cisco
 Abstract
 
    This document defines core requirements for a Catalog specification
-   for container streaming formats for delivery of media over QUIC and
+   for streaming formats for delivery of media over QUIC and
    interoperable with other Catalog definitions.
 
 About This Document
