@@ -35,7 +35,7 @@ informative:
 
 --- abstract
 
-This document defines core requirements for a Catalog specification for streaming formats for delivery of media over QUIC and interoperable with other Catalog definitions.
+This document defines an interoperable Catalog specification for streaming formats implementing the MoQ Base Protocol.
 
 --- middle
 
