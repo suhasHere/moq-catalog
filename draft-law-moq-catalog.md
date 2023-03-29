@@ -74,14 +74,14 @@ track for the emission123
 
 ## Catalog payload structure
 
-The payload of a Catalog Object consists of two components - a two octet header defining the type, followed by the variable length body.
+The payload of a Catalog Object consists of two components - a varint header defining the type, followed by the variable length body.
 
-        +---------------+--------------------+
-        |  0x01 - 0x02  |  Type designator   |
-        |  0x03 -       |       Body         |
-        +---------------+--------------------+
+        +-------------------+--------------------+
+        |  varint           |  Type designator   |
+        |  variable length  |       Body         |
+        +-------------------+--------------------+
 
-To understand the type of catalog object, a receiver would read the first two octets of the object payload and interpret them as an integer in the range  0x0000 - 0xFFFF. This would define the Streaming Format of the catalog object, which in turn would define the serialization of the body, allowing the receiver to parse the body and extract the internal information.
+To understand the type of catalog object, a receiver would read the varint at the start of the payload. This would define the Streaming Format of the catalog object, which in turn would define the serialization of the body, allowing the receiver to parse the body and extract the internal information.
 
 A Catalog specification MUST define the binary serialization of the body. This serialization may vary between streaming formats and there is no requirement to standardize how the data within the body is represented.
 
@@ -91,7 +91,12 @@ A Catalog MUST describe the Track IDs available within an emission. It MAY provi
 
 ## Catalog dependency
 
-The first Catalog object in any group sequence MUST be independent of any other catalog object. Subsequent catalog objects within the same group sequence MAY be dependent on the prior catalog objects within the same group.
+The first Catalog object in any group sequence MUST be independent of any other catalog object. Subsequent catalog objects within the same group sequence MAY be dependent on the prior catalog objects within the same group. Examples of some valid dependency schemes are listed below:
+
+* A single, static catalog object - a single group and object that is invariant over the life of the emission.
+* An updating catalog track - each group represents the whole catalog, the most recent group is the current one.
+* A  delta encoded catalog - the start of a group contains the latest version of the whole catalog, each subsequent object within that group adds, removes or modifies a track in the original.
+* A parent catalog - references additional tracks each of which represents one of the aforementioned catalog dependency types. 
 
 
 # Security Considerations
@@ -104,13 +109,15 @@ This section details how the Type of the Catalog format that can be registered. 
 
 ## Catalog Type Registry
 
-This document creates a new registry, "MoQ Base Protocol Catalog Type".  The registry policy is "RFC Required".  The Type value is 2 octets.  The range is 0x0000-0xFFFF. The initial entry in the registry is:
+This document creates a new registry, "MoQ Base Protocol Catalog Type".  The registry policy is "RFC Required".  The Type value is a varint.  The range is 0x0000-0xFFFF. The initial entry in the registry is:
 
          +--------+-------------+----------------------------------+
          | Type   |     Name    |            RFC                   |
          +--------+-------------+----------------------------------+
          | 0x0000 |   Reserved  |                                  |
          +--------+-------------+----------------------------------+
+         
+Type 0 is reserved for experimentation. It allows a catalog track format under development to flow through a distribution system wihtout triggering behaviors associated with a registered format. 
 
 # References
 
